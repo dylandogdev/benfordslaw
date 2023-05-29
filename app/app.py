@@ -15,10 +15,12 @@ def hello():
 
     # get data from flat file
     #'7_2009'
+    #return a generic error page in case of bad column name
+    #Stretch goal: change input from text to dropdown with only valid column names
     try:
         values = utils.get_list_from_flat_file(os.path.join(app.static_folder, request.args.get('filename')), request.args.get('column'))
     except:
-        return render_template(template_name_or_list='error.html', msg='No column found!')
+        return render_template(template_name_or_list='error.html', msg='You have provided an invalid column name. Please check your work and try again.')
 
     total = len(values)
 
@@ -26,7 +28,10 @@ def hello():
     expected = utils.get_expected_values_numeric(total)
     
     #capture occurences as number for 1-9, skip values starting with 0, error on unexpected values
-    observed = utils.get_occurences_by_first_digit(values)
+    try:
+        observed = utils.get_occurences_by_first_digit(values)
+    except Exception:
+        return render_template(template_name_or_list='error.html', msg='The targeted column does not conform to the required values.')
 
     #populate observed percentages
     observedPercent = utils.get_observed_percentages(observed, total)
@@ -46,7 +51,9 @@ def hello():
 def upload():
     uploaded_file = request.files['file']
     column = request.form.get('target_column_name')
-    if uploaded_file.filename != '':
+    if os.path.splitext(uploaded_file.filename)[1] not in ['.csv', ''] or uploaded_file.filename == '':
+        return render_template(template_name_or_list='error.html', msg='Only flat files with non-empty names are permitted.')
+    else:
         uploaded_file.save(os.path.join(app.static_folder, uploaded_file.filename))
     return redirect(url_for('hello', column=column, filename=uploaded_file.filename))
 

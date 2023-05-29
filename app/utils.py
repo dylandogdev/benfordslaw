@@ -1,4 +1,5 @@
 import csv
+from flask import render_template
 
 def get_list_from_flat_file(path, column):
     # get data from flat file
@@ -21,31 +22,27 @@ def get_expected_values_numeric(total):
 def get_occurences_by_first_digit(values):
     observed = [0, 0, 0, 0, 0, 0, 0, 0, 0]
     for i in range(0, len(values)):
-        try:
-            num = int(str(values[i][0]))
-        except:
-            print(error)
-        else:
-            if num == 1:
-                observed[0] += 1
-            elif num == 2:
-                observed[1] += 1
-            elif num == 3:
-                observed[2] += 1
-            elif num == 4:
-                observed[3] += 1
-            elif num == 5:
-                observed[4] += 1
-            elif num == 6:
-                observed[5] += 1
-            elif num == 7:
-                observed[6] += 1
-            elif num == 8:
-                observed[7] += 1
-            elif num == 9:
-                observed[8] += 1
-            elif num == 0:
-                continue
+        num = int(str(values[i][0]))
+        if num == 1:
+            observed[0] += 1
+        elif num == 2:
+            observed[1] += 1
+        elif num == 3:
+            observed[2] += 1
+        elif num == 4:
+            observed[3] += 1
+        elif num == 5:
+            observed[4] += 1
+        elif num == 6:
+            observed[5] += 1
+        elif num == 7:
+            observed[6] += 1
+        elif num == 8:
+            observed[7] += 1
+        elif num == 9:
+            observed[8] += 1
+        elif num == 0:
+             continue
     return observed
 
 

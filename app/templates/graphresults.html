@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Benford's Law Demo App</title>
+</head>
+
+<body>
+    <div>
+        <p>
+            Does this pass the Benford test? <h4>{{ benford }}</h4><br>
+            <table>
+                <th>
+                    Expected Instances
+                </th>
+                <th>
+                    Observed Instances
+                </th>
+                <th>
+                    Expected Percentage
+                </th>
+                <th>
+                    Observed Percentage
+                </th>
+                {%for x in range(9)%}
+                <tr>
+                    <td>{{ expected[x] }}</td>
+                    <td>{{ observed[x] }}</td>
+                    <td>{{ benvals[x] }}</td>
+                    <td>{{ data[x] }}</td>
+                </tr>
+                {%endfor%}
+            </table>
+        </p>
+    </div>
+    <div style="height: 50vh; width: 50%;">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        const labels = {{ labels | tojson}};
+
+        const data = {
+            labels: labels,
+            datasets: [{
+                type: 'line',
+                label: 'Observed First Digit Distribution',
+                backgroundColor: 'rgb(255, 99, 132)',
+                borderColor: 'rgb(255, 99, 132)',
+                data: {{ data | tojson}},
+            },
+            {
+                type: 'bar',
+                label: 'Benford Distribution',
+                backgroundColor: 'rgb(0, 255, 0)',
+                borderColor: 'rgb(0, 255, 0)',
+                data: {{ benvals | tojson}},  
+			}]
+		};
+
+        const config = {
+            data: data,
+            options: { maintainAspectRatio: false }
+        };
+
+        const myChart = new Chart(
+            document.getElementById('myChart'),
+            config
+        );
+
+    </script>
+</body>
+
+</html>

@@ -2,6 +2,7 @@
 FROM --platform=$BUILDPLATFORM python:3.10-alpine AS builder
 
 WORKDIR /app
+ENV PYTHONPATH "${PYTHONPATH}:/app"
 COPY requirements.txt /app
 RUN --mount=type=cache,target=/root/.cache/pip \
     pip3 install -r requirements.txt
@@ -9,7 +10,7 @@ RUN --mount=type=cache,target=/root/.cache/pip \
 COPY . /app
 
 ENTRYPOINT ["python3"]
-CMD ["python3" "-m" "flask" "run" "-h" "0.0.0.0" "-p" "8000"]
+CMD ["python3", "-m", "flask", "run", "-h", "0.0.0.0", "-p", "8000"]
 
 FROM builder as dev-envs
 

@@ -2,15 +2,31 @@
 <html lang="en">
 
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Benford's Law Demo App</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <title>Benford's Law Demo App</title>
 </head>
 
 <body>
-    <h1>File Upload</h1>
-    <form method="POST" action="/upload" enctype="multipart/form-data">
-      <p><input type="file" name="file"></p>
-      <p><input type="text" name="target_column_name"></p>
-      <p><input type="submit" value="Submit"></p>
-    </form>
-  </body>
+  <h1>File Upload</h1>
+  <p>
+    "Benford’s law describes the relative frequency distribution for leading digits of numbers in datasets. Leading
+    digits with smaller values occur more frequently than larger values. This law states that approximately 30% of
+    numbers start with a 1 while less than 5% start with a 9. According to this law, leading 1s appear 6.5 times as
+    often as leading 9s! Benford’s law is also known as the First Digit Law.
+    Benford’s law often does not apply to assigned numbers, such as ID numbers, phone numbers, and zip codes.
+
+    It works best for data that range over multiple orders of magnitudes from very low to very high. You can cover the
+    10s, 100s, 1000s, and so on. For example, population and incomes can range from very low to very high."
+
+    - Source: <a href="https://statisticsbyjim.com/probability/benfords-law/">Benford's Law Explained</a>, Jim Frost
+  </p>
+  <p>This simple Python application accepts a tab-delimited flat file along with the name of a targeted column. The
+    values in the column are validated accoridng to Benford's Law and the results are then displayed in a graph. To
+    begin, please upload a valid file and specify the name of the column that contains the values to be analyzed.</p>
+  <form method="POST" action="/upload" enctype="multipart/form-data">
+    <p><input type="file" name="file"></p>
+    <label for="col">Target Column Name</label>
+    <p><input type="text" id="col" name="target_column_name"></p>
+    <p><input type="submit" value="Submit"></p>
+  </form>
+</body>

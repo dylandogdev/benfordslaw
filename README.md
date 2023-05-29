@@ -10,10 +10,16 @@ In 1938, Frank Benford published a paper showing the distribution of the leading
 2) validates Benford's assertion based on the '7_2009' column in the supplied file
 
 #### Screen shot
+![Screen shot showing successful validation of sample data in file census_2009b](./images/success.png)
 
 3) Outputs back to the user a graph of the observed distribution of numbers with an overlay of the expected distribution of numbers. The output should also inform the user of whether the observed data matches the expected data distribution.
 
 #### See above screen shot
 
+![Screen shot correctly showing failed sample data. Data was not naturally occuring.](./images/failure.png)
+
 ### Notes and next steps
 This was a quick proof-of-concept application and can be expanded to include more validation and further unit testing (a very basic unit test is included). The frontend experience will be enriched, the user will be able to calibrate how close to the expected values they will consider a match, and users will be able to persist and retrieve datasets. Utils could be refactored as an object class, something like BenfordValues, with methods that perform the calculations and store the results as fields on the instantiated object. Object can then be passed up and down between dao and view layers of the app. 
+
+### Some error handling
+![Screen shot showing error message for improperly-formatted file.](./images/error.png)

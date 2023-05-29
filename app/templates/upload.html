@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <title>Benford's Law Demo App</title>
+</head>
+
+<body>
+    <h1>File Upload</h1>
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+      <p><input type="file" name="file"></p>
+      <p><input type="text" name="target_column_name"></p>
+      <p><input type="submit" value="Submit"></p>
+    </form>
+  </body>

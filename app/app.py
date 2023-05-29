@@ -1,17 +1,25 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 import os
 import utils
 
 app = Flask(__name__)
 
+@app.route('/', methods=['GET'])
+def get_upload():
+    return render_template(template_name_or_list='upload.html')
 
-@app.route('/')
+@app.route('/result')
 def hello():
     
     benfordValues = [30.1, 17.6, 12.5, 9.7, 7.9, 6.7, 5.8, 5.1, 4.6]
 
     # get data from flat file
-    values = utils.get_list_from_flat_file(os.path.join(app.static_folder, 'census_2009b[1].csv'), '7_2009')
+    #'7_2009'
+    try:
+        values = utils.get_list_from_flat_file(os.path.join(app.static_folder, request.args.get('filename')), request.args.get('column'))
+    except:
+        return render_template(template_name_or_list='error.html', msg='No column found!')
+
     total = len(values)
 
     #get expected values using
@@ -33,6 +41,14 @@ def hello():
         expected=expected,
         observed=observed
     )
+
+@app.route('/upload', methods=['POST'])
+def upload():
+    uploaded_file = request.files['file']
+    column = request.form.get('target_column_name')
+    if uploaded_file.filename != '':
+        uploaded_file.save(os.path.join(app.static_folder, uploaded_file.filename))
+    return redirect(url_for('hello', column=column, filename=uploaded_file.filename))
 
 
 if __name__ == '__main__':
